@@ -1,0 +1,9 @@
+FROM debian:jessie
+
+# Install packages
+RUN apt-get update; \
+    apt-get install -qq openssl ssh
+
+COPY client_entrypoint.sh /client_entrypoint.sh
+
+ENTRYPOINT ["/client_entrypoint.sh"]

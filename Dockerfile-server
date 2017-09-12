@@ -1,0 +1,29 @@
+FROM debian:jessie
+
+# Install packages
+RUN apt-get update; \
+    apt-get install -qq openssl ssh
+
+# Generate server keys
+RUN ssh-keygen -A
+
+# configure ssh
+# Allow keys signed by CA authority
+
+RUN echo "TrustedUserCAKeys /data/users_ca.pub" >> /etc/ssh/sshd_config
+
+# Allow principles defined with file
+RUN echo "AuthorizedPrincipalsFile %h/.ssh/authorized_principals" >> /etc/ssh/sshd_config
+
+# Add root as principal
+RUN mkdir /root/.ssh && \
+    chmod 600 /root/.ssh && \
+    echo "root" > /root/.ssh/authorized_principals
+
+
+RUN mkdir /var/run/sshd
+COPY server_entrypoint.sh /server_entrypoint.sh
+
+EXPOSE 22
+
+ENTRYPOINT ["/server_entrypoint.sh"]

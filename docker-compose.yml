@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  keyholder:
+    build:
+      context: '.'
+      dockerfile: Dockerfile-keys
+    volumes:
+     - "keyholder:/data"
+  ssh_server:
+    build:
+      context: '.'
+      dockerfile: Dockerfile-server
+    volumes:
+      - "keyholder:/data"
+  ssh_client:
+    build:
+      context: '.'
+      dockerfile: Dockerfile-client
+    volumes:
+      - "keyholder:/data"
+    links:
+      - "ssh_server"
+volumes:
+  keyholder:

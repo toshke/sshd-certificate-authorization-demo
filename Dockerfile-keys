@@ -1,0 +1,13 @@
+FROM debian:jessie
+
+# Install packages
+RUN apt-get update; \
+    apt-get install -qq openssl ssh
+
+
+# Generate private / public key
+RUN mkdir /data ; \
+    cd /data ; \
+    ssh-keygen -b 2048 -q -N "" -f users_ca ;
+
+VOLUME /data
