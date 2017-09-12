@@ -9,7 +9,6 @@ RUN ssh-keygen -A
 
 # configure ssh
 # Allow keys signed by CA authority
-
 RUN echo "TrustedUserCAKeys /data/users_ca.pub" >> /etc/ssh/sshd_config
 
 # Allow principles defined with file
