@@ -12,8 +12,10 @@ ssh-keygen -s users_ca -I root -n root -V +60s $keyname
 chmod 600 $keyname-cert.pub
 
 # Create local client configuration and add host key to known hosts
-mkdir ~/.ssh
-chmod 600 ~/.ssh
+if [ ! -d "~/.ssh" ];then
+  mkdir ~/.ssh
+  chmod 600 ~/.ssh
+fi
 ssh-keyscan ssh_server >> ~/.ssh/known_hosts
 
 # Print out hostname and server time as long as certificate is valid
